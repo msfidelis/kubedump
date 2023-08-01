@@ -15,17 +15,15 @@ var RestoreCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		namespace := args[0]
-		project_name, _ := cmd.Flags().GetString("project")
+		projectName, _ := cmd.Flags().GetString("project")
 		kubectl, _ := cmd.Flags().GetString("kubectl-location")
 
-		restore.RestoreNamespace(namespace, project_name, kubectl)
+		restore.RestoreNamespace(namespace, projectName, kubectl)
 
-		resources_path := fmt.Sprintf("./%s/%s", project_name, namespace)
-		resource_files := GetFilesInFolder(resources_path)
+		resourcesPath := fmt.Sprintf("./%s/%s", projectName, namespace)
+		resourcesFiles := GetFilesInFolder(resourcesPath)
 
-		fmt.Println(resource_files)
-
-		for _, v := range resource_files {
+		for _, v := range resourcesFiles {
 			restore.RestoreResource(v, namespace, kubectl)
 		}
 	},

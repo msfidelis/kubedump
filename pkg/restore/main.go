@@ -5,9 +5,9 @@ import (
 	"kubedump/pkg/exec"
 )
 
-func RestoreNamespace(namespace string, project_name string, kubectl string) {
+func RestoreNamespace(namespace string, projectName string, kubectl string) {
 	fmt.Printf("Restoring namespace '%s'\n", namespace)
-	resource_path := fmt.Sprintf("./%s/%s/00*", project_name, namespace)
+	resource_path := fmt.Sprintf("./%s/%s/00*", projectName, namespace)
 	restore_cmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resource_path, namespace)
 
 	output, err := exec.SoExec(restore_cmd)

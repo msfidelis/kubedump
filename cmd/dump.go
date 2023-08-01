@@ -15,7 +15,7 @@ var DumpCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		namespace := args[0]
-		project_name, _ := cmd.Flags().GetString("project")
+		projectName, _ := cmd.Flags().GetString("project")
 		kubectl, _ := cmd.Flags().GetString("kubectl-location")
 		format, _ := cmd.Flags().GetString("format")
 
@@ -23,10 +23,10 @@ var DumpCmd = &cobra.Command{
 		resourcesString = strings.TrimSpace(resourcesString)
 		resources := strings.Split(resourcesString, ",")
 
-		files.CreateFolder(fmt.Sprintf("./%s/%s", project_name, namespace))
-		dump.DumpNamespace(namespace, kubectl, format, project_name)
+		files.CreateFolder(fmt.Sprintf("./%s/%s", projectName, namespace))
+		dump.DumpNamespace(namespace, kubectl, format, projectName)
 		for _, v := range resources {
-			dump.DumpResouce(namespace, v, kubectl, format, project_name)
+			dump.DumpResouce(namespace, v, kubectl, format, projectName)
 		}
 	},
 }

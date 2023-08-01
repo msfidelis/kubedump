@@ -1,0 +1,29 @@
+release:
+  prerelease: false
+
+builds:
+  - binary: kubedump
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+      - darwin
+      - linux
+      - freebsd 
+    goarch:
+      - amd64
+      - arm64
+      - arm
+
+# brews:
+#   - github:
+#       owner: msfidelis
+#       name: homebrew-kubedump
+#     homepage: "https://github.com/msfidelis/kubedump/"
+#     description: "Validate SSL around web :spider:"
+
+archives:
+  - format: binary
+    format_overrides:
+      - goos: windows
+        format: zip

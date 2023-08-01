@@ -1,0 +1,96 @@
+name: 'kubedump ci'
+on:
+  push:
+jobs:
+
+  go-lint:
+    strategy:
+      matrix:
+        go-version: [1.16.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: setup GOPATH into PATH
+        run: |
+          echo "::set-env name=GOPATH::$(go env GOPATH)"
+          echo "::add-path::$(go env GOPATH)/bin"
+        shell: bash
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true  
+
+      - uses: actions/checkout@v2
+
+      - name: Run's Golint 
+        run: |
+            export PATH=$PATH:$(go env GOPATH)/bin
+            go get -u golang.org/x/lint/golint
+            golint -set_exit_status ./...
+
+  unit-test:
+    needs: [ go-lint ]
+    strategy:
+      matrix:
+        go-version: [1.17.x,1.18.x,1.19.x]
+        platform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: setup GOPATH into PATH
+        run: |
+          echo "::set-env name=GOPATH::$(go env GOPATH)"
+          echo "::add-path::$(go env GOPATH)/bin"
+        shell: bash
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true  
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: go get -u 
+
+      - name: Test
+        run: go test -v
+
+  build-docker-artifacts:
+    needs: [ unit-test ]
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'main')
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.19.x'
+
+      - uses: actions/checkout@v1
+
+      - name: Docker Build
+        run: docker build -t kubedump:latest .
+
+      - name: Docker Tag Latest
+        run: docker tag kubedump:latest fidelissauro/kubedump:latest
+
+      - name: Docker Tag Latest Release
+        run: | 
+          TAG=$(git describe --tags --abbrev=0)
+          docker tag kubedump:latest fidelissauro/kubedump:$TAG
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD}}
+
+      - name: Docker Push Latest
+        run: docker push fidelissauro/kubedump:latest
+
+      - name: Docker Push Release Tag
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          docker push fidelissauro/kubedump:$TAG

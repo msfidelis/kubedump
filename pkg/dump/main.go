@@ -6,7 +6,8 @@ import (
 	"kubedump/pkg/files"
 )
 
-func DumpResouce(namespace string, resource string, kubectl string, format string, projectName string) {
+// Dump all named resource on informed namespace
+func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
 	fmt.Printf("Dumping '%s' of namespace '%s'\n", resource, namespace)
 
 	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default -o %s", kubectl, resource, namespace, format)
@@ -25,7 +26,8 @@ func DumpResouce(namespace string, resource string, kubectl string, format strin
 	}
 }
 
-func DumpNamespace(namespace string, kubectl string, format string, projectName string) {
+// Dump a namespace object
+func Namespace(namespace string, kubectl string, format string, projectName string) {
 	dumpCmd := fmt.Sprintf("%s get ns %s -o %s", kubectl, namespace, format)
 	output, err := exec.SoExec(dumpCmd)
 	if err != nil {

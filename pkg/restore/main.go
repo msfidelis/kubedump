@@ -5,24 +5,26 @@ import (
 	"kubedump/pkg/exec"
 )
 
-func RestoreNamespace(namespace string, projectName string, kubectl string) {
+// Restore a namespace dumped by kubedump
+func Namespace(namespace string, projectName string, kubectl string) {
 	fmt.Printf("Restoring namespace '%s'\n", namespace)
-	resource_path := fmt.Sprintf("./%s/%s/00*", projectName, namespace)
-	restore_cmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resource_path, namespace)
+	resourcePath := fmt.Sprintf("./%s/%s/00*", projectName, namespace)
+	restoreCmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resourcePath, namespace)
 
-	output, err := exec.SoExec(restore_cmd)
+	output, err := exec.SoExec(restoreCmd)
 	if err != nil {
 		fmt.Printf("Error to restore namespace %s: %v %v\n", namespace, output, err)
 		return
 	}
 }
 
-func RestoreResource(resource_path string, namespace string, kubectl string) {
-	fmt.Printf("Restoring %s on namespace '%s'\n", resource_path, namespace)
+// Restore all resource file exported by kubedump
+func Resource(resourcePath string, namespace string, kubectl string) {
+	fmt.Printf("Restoring %s on namespace '%s'\n", resourcePath, namespace)
 
-	restore_cmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resource_path, namespace)
+	restoreCmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resourcePath, namespace)
 
-	output, err := exec.SoExec(restore_cmd)
+	output, err := exec.SoExec(restoreCmd)
 	if err != nil {
 		fmt.Printf("Error to restore resource on namespace %s: %v %v\n", namespace, output, err)
 		return

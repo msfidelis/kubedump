@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Dump cobra command definition
 var DumpCmd = &cobra.Command{
 	Use:   "dump [namespace]",
 	Short: "dump all resources of a Kubernetes namespace",
@@ -24,9 +25,9 @@ var DumpCmd = &cobra.Command{
 		resources := strings.Split(resourcesString, ",")
 
 		files.CreateFolder(fmt.Sprintf("./%s/%s", projectName, namespace))
-		dump.DumpNamespace(namespace, kubectl, format, projectName)
+		dump.Namespace(namespace, kubectl, format, projectName)
 		for _, v := range resources {
-			dump.DumpResouce(namespace, v, kubectl, format, projectName)
+			dump.Resource(namespace, v, kubectl, format, projectName)
 		}
 	},
 }

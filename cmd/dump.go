@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Dump cobra command definition
+// DumpCmd cobra command definition
 var DumpCmd = &cobra.Command{
 	Use:   "dump [namespace]",
 	Short: "dump all resources of a Kubernetes namespace",

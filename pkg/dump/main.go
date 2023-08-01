@@ -6,7 +6,7 @@ import (
 	"kubedump/pkg/files"
 )
 
-// Dump all named resource on informed namespace
+// Resource dump all named resource on informed namespace
 func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
 	fmt.Printf("Dumping '%s' of namespace '%s'\n", resource, namespace)
 
@@ -26,7 +26,7 @@ func Resource(namespace string, resource string, kubectl string, format string, 
 	}
 }
 
-// Dump a namespace object
+// Namespace dump a namespace object
 func Namespace(namespace string, kubectl string, format string, projectName string) {
 	dumpCmd := fmt.Sprintf("%s get ns %s -o %s", kubectl, namespace, format)
 	output, err := exec.SoExec(dumpCmd)

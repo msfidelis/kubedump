@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// Exec command on operating system
+// SoExec command on operating system
 func SoExec(command string) (string, error) {
 
 	args := strings.Split(command, " ")

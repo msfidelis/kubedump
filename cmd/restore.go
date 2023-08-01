@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Dump cobra command definition
+// RestoreCmd cobra command definition
 var RestoreCmd = &cobra.Command{
 	Use:   "restore [namespace]",
 	Short: "restore all resources dumped using kubedump of a Kubernetes namespace",

@@ -5,7 +5,7 @@ import (
 	"kubedump/pkg/exec"
 )
 
-// Restore a namespace dumped by kubedump
+// Namespace restore a namespace dumped by kubedump
 func Namespace(namespace string, projectName string, kubectl string) {
 	fmt.Printf("Restoring namespace '%s'\n", namespace)
 	resourcePath := fmt.Sprintf("./%s/%s/00*", projectName, namespace)
@@ -18,7 +18,7 @@ func Namespace(namespace string, projectName string, kubectl string) {
 	}
 }
 
-// Restore all resource file exported by kubedump
+// Resource restore all resource file exported by kubedump
 func Resource(resourcePath string, namespace string, kubectl string) {
 	fmt.Printf("Restoring %s on namespace '%s'\n", resourcePath, namespace)
 

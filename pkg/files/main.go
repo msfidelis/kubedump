@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-// Create a folders in recursive mode
+// CreateFolder a folders in recursive mode
 func CreateFolder(location string) {
 	err := os.MkdirAll(location, 0755)
 	if err != nil {
@@ -16,7 +16,7 @@ func CreateFolder(location string) {
 	}
 }
 
-// Write a file with a string content
+// WriteFile a file with a string content
 func WriteFile(location string, content string) error {
 	err := ioutil.WriteFile(location, []byte(content), 0644)
 	if err != nil {
@@ -25,7 +25,7 @@ func WriteFile(location string, content string) error {
 	return nil
 }
 
-// List all files in folder and return all then in slice of strings
+// GetFilesInFolder List all files in folder and return all then in slice of strings
 func GetFilesInFolder(path string) []string {
 	var items []string
 	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {

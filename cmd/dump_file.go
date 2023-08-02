@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// DumpCmd cobra command definition
+// DumpFileCmd cobra command definition
 var DumpFileCmd = &cobra.Command{
 	Use:   "dump-file",
 	Short: "dump all resources of with file custom configs",

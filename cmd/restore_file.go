@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// DumpCmd cobra command definition
+// RestoreFileCmd cobra command definition
 var RestoreFileCmd = &cobra.Command{
 	Use:   "restore-file",
 	Short: "restore all resources of with custom configs from configuration files",

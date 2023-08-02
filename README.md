@@ -1,4 +1,4 @@
-# Kubedump - Simple tool to dump and restore all kubernetes resources across namespaces to simplify backups and migrations
+# Kubedump - Simple tool to dump and restore kubernetes resources
 
 <p>
   <a href="README.md" target="_blank">
@@ -25,7 +25,7 @@
 
 # Installation 
 
-### Docker 
+## Docker 
 
 ```bash
 docker pull fidelissauro/kubedump:latest
@@ -36,7 +36,7 @@ docker run --network -v ~/.kubeconfig:/home/root/.kubeconfig host -it fidelissau
 ```
 
 
-### MacOS amd64
+## MacOS amd64
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_darwin_arm64 -O kubedump 
@@ -45,7 +45,7 @@ chmod +x /usr/local/bin/kubedump
 ```
 
 
-### MacOS arm64
+## MacOS arm64
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_darwin_amd64 -O kubedump 
@@ -53,7 +53,7 @@ mv kubedump /usr/local/bin
 chmod +x /usr/local/bin/kubedump
 ```
 
-### Linux amd64 
+## Linux amd64 
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_linux_amd64 -O kubedump 
@@ -61,7 +61,7 @@ mv kubedump /usr/local/bin
 chmod +x /usr/local/bin/kubedump
 ```
 
-### Linux arm64 
+## Linux arm64 
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_linux_arm64 -O kubedump 
@@ -69,7 +69,7 @@ mv kubedump /usr/local/bin
 chmod +x /usr/local/bin/kubedump
 ```
 
-### Freebsd amd64 
+## Freebsd amd64 
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_freebsd_amd64 -O kubedump 
@@ -77,7 +77,7 @@ mv kubedump /usr/local/bin
 chmod +x /usr/local/bin/kubedump
 ```
 
-### Freebsd arm64 
+## Freebsd arm64 
 
 ```bash
 wget https://github.com/msfidelis/kubedump/releases/download/v0.1/kubedump_0.1_freebsd_arm64 -O kubedump 
@@ -85,7 +85,7 @@ mv kubedump /usr/local/bin
 chmod +x /usr/local/bin/kubedump
 ```
 
-# v0 Usage 
+#  Usage
 
 ```bash
 Usage:
@@ -103,7 +103,7 @@ Flags:
 Use "kubedump [command] --help" for more information about a command.
 ``````
 
-## v0 Usage - Dump
+## Usage - Dump
 
 ```bash
 kubedump dump --help
@@ -122,7 +122,7 @@ Flags:
       --resources string          Kubernetes resources separated by comma (default "deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob")
 ```
 
-## Dump namespace resources 
+### Dump namespace resources 
 
 ```bash
 ❯ kubedump dump chip --project cluster_x
@@ -155,7 +155,7 @@ cluster_x
     └── statefulset.yaml
 ```
 
-## Dump custom resources 
+### Dump custom resources 
 
 ```bash
 kubedump dump chip --project cluster_x --resources deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob,virtualservice,gateway,destinationrules
@@ -173,7 +173,7 @@ Dumping 'gateway' of namespace 'chip'
 Dumping 'destinationrules' of namespace 'chip'
 ```
 
-## Dump format option 
+### Dump format option 
 
 ```
 kubedump dump chip --project cluster_x --format yaml
@@ -214,7 +214,7 @@ cluster_y
 ```
 
 
-## v0 Usage - Restore 
+## Usage - Restore 
 
 ```bash
 ❯ kubedump restore --help
@@ -248,3 +248,72 @@ Restoring kubedump/chip/statefulset.yaml on namespace 'chip'
 ```
 
 
+## Using Config Files 
+
+You can use `dump-file` and `restore-file` command with yaml file configuration to automate dumps between a lot of namespaces at same time. 
+
+You can create a `kubedump-file.yaml` example like this: 
+
+```yaml
+project: cluster_x
+format: yaml
+namespaces: 
+  - chip
+  - whois
+resources:
+  - deployment
+  - service
+  - hpa
+  - ingress
+  - serviceaccount
+  - daemonset
+  - statefulset
+  - jobs
+  - cronjob
+  - secret
+  - configmap
+
+```
+
+```bash
+kubedump dump-file --config-file kubedump-file.yaml
+
+Dumping 'deployment' resources from namespace 'chip'
+Dumping 'service' resources from namespace 'chip'
+Dumping 'hpa' resources from namespace 'chip'
+Dumping 'ingress' resources from namespace 'chip'
+Dumping 'serviceaccount' resources from namespace 'chip'
+Dumping 'daemonset' resources from namespace 'chip'
+Dumping 'statefulset' resources from namespace 'chip'
+Dumping 'jobs' resources from namespace 'chip'
+Dumping 'cronjob' resources from namespace 'chip'
+Dumping 'secret' resources from namespace 'chip'
+Dumping 'configmap' resources from namespace 'chip'
+Dumping 'deployment' resources from namespace 'whois'
+Dumping 'service' resources from namespace 'whois'
+Dumping 'hpa' resources from namespace 'whois'
+Dumping 'ingress' resources from namespace 'whois'
+Dumping 'serviceaccount' resources from namespace 'whois'
+Dumping 'daemonset' resources from namespace 'whois'
+Dumping 'statefulset' resources from namespace 'whois'
+Dumping 'jobs' resources from namespace 'whois'
+Dumping 'cronjob' resources from namespace 'whois'
+Dumping 'secret' resources from namespace 'whois'
+Dumping 'configmap' resources from namespace 'whois'
+```
+
+
+```bash
+kubedump restore-file --config-file kubedump-file.yaml
+Restoring namespace 'chip'
+Restored cluster_x/chip/deployment.yaml resources on namespace 'chip'
+Restored cluster_x/chip/hpa.yaml resources on namespace 'chip'
+Restored cluster_x/chip/ingress.yaml resources on namespace 'chip'
+Restored cluster_x/chip/service.yaml resources on namespace 'chip'
+
+Restoring namespace 'whois'
+Restored cluster_x/whois/deployment.yaml resources on namespace 'whois'
+Restored cluster_x/whois/hpa.yaml resources on namespace 'whois'
+Restored cluster_x/whois/ingress.yaml resources on namespace 'whois'
+Restored cluster_x/whois/service.yaml resources on namespace 'whois'
+```

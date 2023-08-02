@@ -1,2 +1,5 @@
 kubedump
 .tmp
+kubedump-file.yaml
+cluster_x
+cluster_ys

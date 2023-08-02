@@ -8,7 +8,7 @@ import (
 
 // Resource dump all named resource on informed namespace
 func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
-	fmt.Printf("Dumping '%s' of namespace '%s'\n", resource, namespace)
+	fmt.Printf("Dumping '%s' resources from namespace '%s'\n", resource, namespace)
 
 	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default -o %s", kubectl, resource, namespace, format)
 

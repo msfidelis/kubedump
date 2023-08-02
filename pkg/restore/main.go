@@ -9,7 +9,7 @@ import (
 func Namespace(namespace string, projectName string, kubectl string) {
 	fmt.Printf("Restoring namespace '%s'\n", namespace)
 	resourcePath := fmt.Sprintf("./%s/%s/00*", projectName, namespace)
-	restoreCmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resourcePath, namespace)
+	restoreCmd := fmt.Sprintf("%s apply -f %s -n %s --validate=false", kubectl, resourcePath, namespace)
 
 	output, err := exec.SoExec(restoreCmd)
 	if err != nil {
@@ -20,13 +20,15 @@ func Namespace(namespace string, projectName string, kubectl string) {
 
 // Resource restore all resource file exported by kubedump
 func Resource(resourcePath string, namespace string, kubectl string) {
-	fmt.Printf("Restoring %s on namespace '%s'\n", resourcePath, namespace)
 
 	restoreCmd := fmt.Sprintf("%s apply -f %s -n %s", kubectl, resourcePath, namespace)
 
 	output, err := exec.SoExec(restoreCmd)
 	if err != nil {
-		fmt.Printf("Error to restore resource on namespace %s: %v %v\n", namespace, output, err)
+		fmt.Printf("Error to restore %s resource on namespace %s: %v %v\n", resourcePath, namespace, output, err)
 		return
 	}
+
+	fmt.Printf("Restored %s resources on namespace '%s'\n", resourcePath, namespace)
+
 }

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"kubedump/pkg/config"
-	"kubedump/pkg/dump"
 	"kubedump/pkg/files"
+	"kubedump/pkg/restore"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -13,9 +13,9 @@ import (
 )
 
 // DumpCmd cobra command definition
-var DumpFileCmd = &cobra.Command{
-	Use:   "dump-file",
-	Short: "dump all resources of with file custom configs",
+var RestoreFileCmd = &cobra.Command{
+	Use:   "restore-file",
+	Short: "restore all resources of with custom configs from configuration files",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		kubectl, _ := cmd.Flags().GetString("kubectl-location")
@@ -35,13 +35,15 @@ var DumpFileCmd = &cobra.Command{
 			log.Fatalf("Error to Unmarshal YAML File: %v", err)
 		}
 
-		for _, v := range config.Namespaces {
-			files.CreateFolder(fmt.Sprintf("./%s/%s", config.Project, v))
-			dump.Namespace(v, kubectl, config.Format, config.Project)
+		for _, n := range config.Namespaces {
 
-			for _, r := range config.Resources {
-				dump.Resource(v, r, kubectl, config.Format, config.Project)
+			restore.Namespace(n, config.Project, kubectl)
 
+			resourcesPath := fmt.Sprintf("./%s/%s", config.Project, n)
+			resourcesFiles := files.GetFilesInFolder(resourcesPath)
+
+			for _, r := range resourcesFiles {
+				restore.Resource(r, n, kubectl)
 			}
 		}
 	},

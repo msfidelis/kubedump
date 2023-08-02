@@ -1,4 +1,4 @@
-# Kubedump - Simple tool to dump and restore all kubernetes resources 
+# Kubedump - Simple tool to dump and restore kubernetes resources
 
 <p>
   <a href="README.md" target="_blank">
@@ -250,7 +250,7 @@ Restoring kubedump/chip/statefulset.yaml on namespace 'chip'
 
 ## Using Config Files 
 
-You can use `dump-file` command with yaml file configuration to automate dumps between a lot of namespaces at same time. 
+You can use `dump-file` and `restore-file` command with yaml file configuration to automate dumps between a lot of namespaces at same time. 
 
 You can create a `kubedump-file.yaml` example like this: 
 
@@ -300,4 +300,20 @@ Dumping 'jobs' resources from namespace 'whois'
 Dumping 'cronjob' resources from namespace 'whois'
 Dumping 'secret' resources from namespace 'whois'
 Dumping 'configmap' resources from namespace 'whois'
+```
+
+
+```bash
+kubedump restore-file --config-file kubedump-file.yaml
+Restoring namespace 'chip'
+Restored cluster_x/chip/deployment.yaml resources on namespace 'chip'
+Restored cluster_x/chip/hpa.yaml resources on namespace 'chip'
+Restored cluster_x/chip/ingress.yaml resources on namespace 'chip'
+Restored cluster_x/chip/service.yaml resources on namespace 'chip'
+
+Restoring namespace 'whois'
+Restored cluster_x/whois/deployment.yaml resources on namespace 'whois'
+Restored cluster_x/whois/hpa.yaml resources on namespace 'whois'
+Restored cluster_x/whois/ingress.yaml resources on namespace 'whois'
+Restored cluster_x/whois/service.yaml resources on namespace 'whois'
 ```

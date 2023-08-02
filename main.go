@@ -12,6 +12,7 @@ func main() {
 		cmd.DumpCmd,
 		cmd.RestoreCmd,
 		cmd.DumpFileCmd,
+		cmd.RestoreFileCmd,
 	)
 
 	cmd.DumpCmd.Flags().BoolP("dry-run", "d", false, "Perform a dry-run backup (no actual backup will be performed)")
@@ -25,6 +26,9 @@ func main() {
 
 	cmd.RestoreCmd.Flags().String("kubectl-location", "/usr/local/bin/kubectl", "Custom kubectl binary or alias")
 	cmd.RestoreCmd.Flags().String("project", "kubedump", "Project name")
+
+	cmd.RestoreFileCmd.Flags().String("kubectl-location", "/usr/local/bin/kubectl", "Custom kubectl binary or alias")
+	cmd.RestoreFileCmd.Flags().String("config-file", "", "kubedump config file location")
 
 	rootCmd.Execute()
 }

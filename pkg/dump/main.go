@@ -30,6 +30,7 @@ func Resource(namespace string, resource string, kubectl string, format string, 
 
 // Namespace dump a namespace object
 func Namespace(namespace string, kubectl string, format string, projectName string) {
+	log.Info("Dumping resources", "namespace", namespace, "resource", "namespace")
 	dumpCmd := fmt.Sprintf("%s get ns %s -o %s", kubectl, namespace, format)
 	output, err := exec.SoExec(dumpCmd)
 	if err != nil {

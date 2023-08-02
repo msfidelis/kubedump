@@ -27,14 +27,14 @@ var DumpCmd = &cobra.Command{
 		resources := strings.Split(resourcesString, ",")
 
 		projectFolder := fmt.Sprintf("./%s/%s", projectName, namespace)
-		log.Info(fmt.Sprintf("Starting dump from %s namespace", namespace))
-		log.Info("Creating project folder to dump resources", "project_folder", projectFolder)
+		log.Info("Starting dump", "namespace", namespace)
+
 		files.CreateFolder(projectFolder)
-		log.Info("Project folder created", "project_folder", projectFolder)
 
 		dump.Namespace(namespace, kubectl, format, projectName)
 		for _, v := range resources {
 			dump.Resource(namespace, v, kubectl, format, projectName)
 		}
+		log.Info("Success", "namespace", namespace, "output_files", projectFolder)
 	},
 }

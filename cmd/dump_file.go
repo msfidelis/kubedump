@@ -36,7 +36,6 @@ var DumpFileCmd = &cobra.Command{
 		}
 
 		for _, v := range config.Namespaces {
-			fmt.Println(v)
 			files.CreateFolder(fmt.Sprintf("./%s/%s", config.Project, v))
 			dump.Namespace(v, kubectl, config.Format, config.Project)
 

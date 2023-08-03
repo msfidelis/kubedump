@@ -1,17 +1,18 @@
 package files
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/charmbracelet/log"
 )
 
 // CreateFolder a folders in recursive mode
 func CreateFolder(location string) {
 	err := os.MkdirAll(location, 0755)
 	if err != nil {
-		fmt.Printf("Erro to create dir: %v\n", err)
+		log.Error("Error to create dir:", "path", location, "error", err.Error())
 		return
 	}
 }
@@ -20,6 +21,7 @@ func CreateFolder(location string) {
 func WriteFile(location string, content string) error {
 	err := ioutil.WriteFile(location, []byte(content), 0644)
 	if err != nil {
+		log.Error("Error to write a file content:", "path", location, "error", err.Error())
 		return err
 	}
 	return nil
@@ -36,7 +38,7 @@ func GetFilesInFolder(path string) []string {
 		return nil
 	})
 	if err != nil {
-		fmt.Printf("Erro to list dir %v: %v\n", path, err)
+		log.Error("Error to list dir:", "path", path, "error", err.Error())
 		return nil
 	}
 	return items[1:]

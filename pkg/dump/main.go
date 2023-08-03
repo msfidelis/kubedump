@@ -9,25 +9,6 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-// Resource dump all named resource on informed namespace
-func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
-	log.Info("Dumping resources", "namespace", namespace, "resource", resource)
-
-	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default -o %s", kubectl, resource, namespace, format)
-	output, err := exec.SoExec(dumpCmd)
-	if err != nil {
-		fmt.Printf("Error to Dump resource %s on namespace %s: %v %v\n", resource, namespace, output, err)
-		return
-	}
-	output = removePatterns(output)
-	outputFile := fmt.Sprintf("./%s/%s/%s.%s", projectName, namespace, resource, format)
-	err = files.WriteFile(outputFile, output)
-	if err != nil {
-		log.Error("Error to write resource file", "namespace", namespace, "resource", resource, "file", outputFile, "error", err.Error())
-		return
-	}
-}
-
 // Namespace dump a namespace object
 func Namespace(namespace string, kubectl string, format string, projectName string) {
 	log.Info("Dumping resources", "namespace", namespace, "resource", "namespace")
@@ -47,6 +28,30 @@ func Namespace(namespace string, kubectl string, format string, projectName stri
 	}
 }
 
+// Resource dump all named resource on informed namespace
+func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
+	log.Info("Dumping resources", "namespace", namespace, "resource", resource)
+
+	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default -o %s", kubectl, resource, namespace, format)
+	output, err := exec.SoExec(dumpCmd)
+	if err != nil {
+		log.Error("Error to Dump resource", "namespace", namespace, "resource", resource, "file", "error", err.Error())
+		return
+	}
+	isEmpty := verifyKindList(output)
+	if isEmpty {
+		log.Warn("No resource found in namespace", "namespace", namespace, "resource", resource)
+		return
+	}
+	output = removePatterns(output)
+	outputFile := fmt.Sprintf("./%s/%s/%s.%s", projectName, namespace, resource, format)
+	err = files.WriteFile(outputFile, output)
+	if err != nil {
+		log.Error("Error to write resource file", "namespace", namespace, "resource", resource, "file", outputFile, "error", err.Error())
+		return
+	}
+}
+
 // removePatterns removes versions from dump to restore in another cluster without lock
 func removePatterns(yamlString string) string {
 	lines := strings.Split(yamlString, "\n")
@@ -62,4 +67,10 @@ func removePatterns(yamlString string) string {
 	// Juntar novamente as linhas em uma nova string YAML
 	newYAML := strings.Join(filteredLines, "\n")
 	return newYAML
+}
+
+// verifyKindList verify if output yaml is a empty list
+func verifyKindList(yamlString string) bool {
+	// fmt.Println(yamlString)
+	return strings.Contains(yamlString, "items: []")
 }

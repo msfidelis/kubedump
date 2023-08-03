@@ -1,5 +1,7 @@
 # Kubedump - Simple tool to dump and restore kubernetes resources
 
+![logo](.github/img/logo.png)
+
 <p>
   <a href="README.md" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -39,7 +41,7 @@ docker run --network -v ~/.kubeconfig:/home/root/.kubeconfig host -it fidelissau
 ## MacOS amd64
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_darwin_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_darwin_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -48,7 +50,7 @@ chmod +x /usr/local/bin/kubedump
 ## MacOS arm64
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_darwin_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_darwin_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -56,7 +58,7 @@ chmod +x /usr/local/bin/kubedump
 ## Linux amd64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_linux_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_linux_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -64,7 +66,7 @@ chmod +x /usr/local/bin/kubedump
 ## Linux arm64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_linux_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_linux_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -72,7 +74,7 @@ chmod +x /usr/local/bin/kubedump
 ## Freebsd amd64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_freebsd_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_freebsd_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -80,7 +82,7 @@ chmod +x /usr/local/bin/kubedump
 ## Freebsd arm64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.1/kubedump_0.1.1_freebsd_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.2/kubedump_0.1.2_freebsd_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -88,14 +90,18 @@ chmod +x /usr/local/bin/kubedump
 #  Usage
 
 ```bash
+kubedump --help
+
 Usage:
   kubedump [command]
 
 Available Commands:
-  completion  Generate the autocompletion script for the specified shell
-  dump        dump all resources of a Kubernetes namespace
-  help        Help about any command
-  restore     restore all resources dumped using kubedump of a Kubernetes namespace
+  completion   Generate the autocompletion script for the specified shell
+  dump         dump all resources of a Kubernetes namespace
+  dump-file    dump all resources of with file custom configs
+  help         Help about any command
+  restore      restore all resources dumped using kubedump of a Kubernetes namespace
+  restore-file restore all resources of with custom configs from configuration files
 
 Flags:
   -h, --help   help for kubedump
@@ -107,17 +113,17 @@ Use "kubedump [command] --help" for more information about a command.
 
 ```bash
 kubedump dump --help
+
 dump all resources of a Kubernetes namespace
 
 Usage:
   kubedump dump [namespace] [flags]
 
 Flags:
-      --config-file string        kubedump config file location
   -d, --dry-run                   Perform a dry-run backup (no actual backup will be performed)
       --format string             Dump output format (default "yaml")
   -h, --help                      help for dump
-      --kubectl-location string   Custom kubectl binary or alias (default "/usr/local/bin/kubectl")
+      --kubectl-location string   Custom kubectl binary or alias (default "kubectl")
       --project string            Project name (default "kubedump")
       --resources string          Kubernetes resources separated by comma (default "deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob")
 ```
@@ -126,15 +132,19 @@ Flags:
 
 ```bash
 ❯ kubedump dump chip --project cluster_x
-Dumping 'deployment' of namespace 'chip'
-Dumping 'service' of namespace 'chip'
-Dumping 'hpa' of namespace 'chip'
-Dumping 'ingress' of namespace 'chip'
-Dumping 'serviceaccount' of namespace 'chip'
-Dumping 'daemonset' of namespace 'chip'
-Dumping 'statefulset' of namespace 'chip'
-Dumping 'job' of namespace 'chip'
-Dumping 'cronjob' of namespace 'chip'
+
+2023/08/02 21:48:08 INFO Starting dump namespace=chip
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=namespace
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=deployment
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=service
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=hpa
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=ingress
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=serviceaccount
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=daemonset
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=statefulset
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=job
+2023/08/02 21:48:08 INFO Dumping resources namespace=chip resource=cronjob
+2023/08/02 21:48:08 INFO Success namespace=chip output_files=./cluster_x/chip
 ```
 
 An folder will be created with `project` name, with output structure like 
@@ -159,18 +169,30 @@ cluster_x
 
 ```bash
 kubedump dump chip --project cluster_x --resources deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob,virtualservice,gateway,destinationrules
-Dumping 'deployment' of namespace 'chip'
-Dumping 'service' of namespace 'chip'
-Dumping 'hpa' of namespace 'chip'
-Dumping 'ingress' of namespace 'chip'
-Dumping 'serviceaccount' of namespace 'chip'
-Dumping 'daemonset' of namespace 'chip'
-Dumping 'statefulset' of namespace 'chip'
-Dumping 'job' of namespace 'chip'
-Dumping 'cronjob' of namespace 'chip'
-Dumping 'virtualservice' of namespace 'chip'
-Dumping 'gateway' of namespace 'chip'
-Dumping 'destinationrules' of namespace 'chip'
+
+2023/08/02 21:49:19 INFO Starting dump namespace=chip
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=namespace
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=deployment
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=service
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=hpa
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=ingress
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=serviceaccount
+2023/08/02 21:49:19 WARN No resource found in namespace namespace=chip resource=serviceaccount
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=daemonset
+2023/08/02 21:49:19 WARN No resource found in namespace namespace=chip resource=daemonset
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=statefulset
+2023/08/02 21:49:19 WARN No resource found in namespace namespace=chip resource=statefulset
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=job
+2023/08/02 21:49:19 WARN No resource found in namespace namespace=chip resource=job
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=cronjob
+2023/08/02 21:49:19 WARN No resource found in namespace namespace=chip resource=cronjob
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=virtualservice
+2023/08/02 21:49:19 ERRO Error to Dump resource namespace=chip resource=virtualservice file=error exit status 1="missing value"
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=gateway
+2023/08/02 21:49:19 ERRO Error to Dump resource namespace=chip resource=gateway file=error exit status 1="missing value"
+2023/08/02 21:49:19 INFO Dumping resources namespace=chip resource=destinationrules
+2023/08/02 21:49:20 ERRO Error to Dump resource namespace=chip resource=destinationrules file=error exit status 1="missing value"
+2023/08/02 21:49:20 INFO Success namespace=chip output_files=./cluster_x/chip
 ```
 
 ### Dump format option 
@@ -234,17 +256,12 @@ Flags:
 ```bash
 kubedump restore chip 
 
-Restoring namespace 'chip'
-Restoring kubedump/chip/00-namespace.yaml on namespace 'chip'
-Restoring kubedump/chip/cronjob.yaml on namespace 'chip'
-Restoring kubedump/chip/daemonset.yaml on namespace 'chip'
-Restoring kubedump/chip/deployment.yaml on namespace 'chip'
-Restoring kubedump/chip/hpa.yaml on namespace 'chip'
-Restoring kubedump/chip/ingress.yaml on namespace 'chip'
-Restoring kubedump/chip/job.yaml on namespace 'chip'
-Restoring kubedump/chip/service.yaml on namespace 'chip'
-Restoring kubedump/chip/serviceaccount.yaml on namespace 'chip'
-Restoring kubedump/chip/statefulset.yaml on namespace 'chip'
+2023/08/02 21:50:13 INFO Restoring resources namespace=chip resource=namespace
+2023/08/02 21:50:13 INFO Resources restored: namespace=chip resources=kubedump/chip/00-namespace.yaml
+2023/08/02 21:50:13 INFO Resources restored: namespace=chip resources=kubedump/chip/deployment.yaml
+2023/08/02 21:50:13 INFO Resources restored: namespace=chip resources=kubedump/chip/hpa.yaml
+2023/08/02 21:50:13 INFO Resources restored: namespace=chip resources=kubedump/chip/ingress.yaml
+2023/08/02 21:50:13 INFO Resources restored: namespace=chip resources=kubedump/chip/service.yaml
 ```
 
 
@@ -278,42 +295,38 @@ resources:
 ```bash
 kubedump dump-file --config-file kubedump-file.yaml
 
-Dumping 'deployment' resources from namespace 'chip'
-Dumping 'service' resources from namespace 'chip'
-Dumping 'hpa' resources from namespace 'chip'
-Dumping 'ingress' resources from namespace 'chip'
-Dumping 'serviceaccount' resources from namespace 'chip'
-Dumping 'daemonset' resources from namespace 'chip'
-Dumping 'statefulset' resources from namespace 'chip'
-Dumping 'jobs' resources from namespace 'chip'
-Dumping 'cronjob' resources from namespace 'chip'
-Dumping 'secret' resources from namespace 'chip'
-Dumping 'configmap' resources from namespace 'chip'
-Dumping 'deployment' resources from namespace 'whois'
-Dumping 'service' resources from namespace 'whois'
-Dumping 'hpa' resources from namespace 'whois'
-Dumping 'ingress' resources from namespace 'whois'
-Dumping 'serviceaccount' resources from namespace 'whois'
-Dumping 'daemonset' resources from namespace 'whois'
-Dumping 'statefulset' resources from namespace 'whois'
-Dumping 'jobs' resources from namespace 'whois'
-Dumping 'cronjob' resources from namespace 'whois'
-Dumping 'secret' resources from namespace 'whois'
-Dumping 'configmap' resources from namespace 'whois'
+2023/08/02 21:52:13 INFO Dumping resources namespace=chip resource=namespace
+2023/08/02 21:52:13 INFO Dumping resources namespace=chip resource=deployment
+2023/08/02 21:52:14 INFO Dumping resources namespace=chip resource=service
+2023/08/02 21:52:14 INFO Dumping resources namespace=chip resource=hpa
+2023/08/02 21:52:14 INFO Dumping resources namespace=chip resource=ingress
+2023/08/02 21:52:14 INFO Dumping resources namespace=chip resource=serviceaccount
+2023/08/02 21:52:14 WARN No resource found in namespace namespace=chip resource=serviceaccount
+2023/08/02 21:52:14 INFO Success namespace=chip output_files=./cluster_x/chip
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=namespace
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=deployment
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=service
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=hpa
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=ingress
+2023/08/02 21:52:14 INFO Dumping resources namespace=whois resource=serviceaccount
+2023/08/02 21:52:14 WARN No resource found in namespace namespace=whois resource=serviceaccount
+2023/08/02 21:52:14 INFO Success namespace=whois output_files=./cluster_x/whois
 ```
 
 
 ```bash
 kubedump restore-file --config-file kubedump-file.yaml
-Restoring namespace 'chip'
-Restored cluster_x/chip/deployment.yaml resources on namespace 'chip'
-Restored cluster_x/chip/hpa.yaml resources on namespace 'chip'
-Restored cluster_x/chip/ingress.yaml resources on namespace 'chip'
-Restored cluster_x/chip/service.yaml resources on namespace 'chip'
 
-Restoring namespace 'whois'
-Restored cluster_x/whois/deployment.yaml resources on namespace 'whois'
-Restored cluster_x/whois/hpa.yaml resources on namespace 'whois'
-Restored cluster_x/whois/ingress.yaml resources on namespace 'whois'
-Restored cluster_x/whois/service.yaml resources on namespace 'whois'
+2023/08/02 21:52:45 INFO Restoring resources namespace=chip resource=namespace
+2023/08/02 21:52:45 INFO Resources restored: namespace=chip resources=cluster_x/chip/00-namespace.yaml
+2023/08/02 21:52:45 INFO Resources restored: namespace=chip resources=cluster_x/chip/deployment.yaml
+2023/08/02 21:52:45 INFO Resources restored: namespace=chip resources=cluster_x/chip/hpa.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=chip resources=cluster_x/chip/ingress.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=chip resources=cluster_x/chip/service.yaml
+2023/08/02 21:52:46 INFO Restoring resources namespace=whois resource=namespace
+2023/08/02 21:52:46 INFO Resources restored: namespace=whois resources=cluster_x/whois/00-namespace.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=whois resources=cluster_x/whois/deployment.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=whois resources=cluster_x/whois/hpa.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=whois resources=cluster_x/whois/ingress.yaml
+2023/08/02 21:52:46 INFO Resources restored: namespace=whois resources=cluster_x/whois/service.yaml
 ```

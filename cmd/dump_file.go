@@ -6,8 +6,8 @@ import (
 	"kubedump/pkg/config"
 	"kubedump/pkg/dump"
 	"kubedump/pkg/files"
-	"log"
 
+	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
@@ -36,6 +36,7 @@ var DumpFileCmd = &cobra.Command{
 		}
 
 		for _, v := range config.Namespaces {
+			pathFolder := fmt.Sprintf("./%s/%s", config.Project, v)
 			files.CreateFolder(fmt.Sprintf("./%s/%s", config.Project, v))
 			dump.Namespace(v, kubectl, config.Format, config.Project)
 
@@ -43,6 +44,7 @@ var DumpFileCmd = &cobra.Command{
 				dump.Resource(v, r, kubectl, config.Format, config.Project)
 
 			}
+			log.Info("Success", "namespace", v, "output_files", pathFolder)
 		}
 	},
 }

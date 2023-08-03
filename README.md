@@ -1,5 +1,7 @@
 # Kubedump - Simple tool to dump and restore kubernetes resources
 
+![logo](.github/img/logo.png)
+
 <p>
   <a href="README.md" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />

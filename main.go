@@ -16,7 +16,7 @@ func main() {
 	)
 
 	cmd.DumpCmd.Flags().BoolP("dry-run", "d", false, "Perform a dry-run backup (no actual backup will be performed)")
-	cmd.DumpCmd.Flags().String("resources", "deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob", "Kubernetes resources separated by comma")
+	cmd.DumpCmd.Flags().String("resources", "deployment,service,hpa,ingress,serviceaccount,daemonset,statefulset,job,cronjob,configmaps,secrets", "Kubernetes resources separated by comma")
 	cmd.DumpCmd.Flags().String("kubectl-location", "kubectl", "Custom kubectl binary or alias")
 	cmd.DumpCmd.Flags().String("format", "yaml", "Dump output format")
 	cmd.DumpCmd.Flags().String("project", "kubedump", "Project name")

@@ -32,7 +32,7 @@ func Namespace(namespace string, kubectl string, format string, projectName stri
 func Resource(namespace string, resource string, kubectl string, format string, projectName string) {
 	log.Info("Dumping resources", "namespace", namespace, "resource", resource)
 
-	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default -o %s", kubectl, resource, namespace, format)
+	dumpCmd := fmt.Sprintf("%s get %s -n %s --field-selector metadata.name!=default,metadata.name!=kube-root-ca.crt -o %s", kubectl, resource, namespace, format)
 	output, err := exec.SoExec(dumpCmd)
 	if err != nil {
 		log.Error("Error to Dump resource", "namespace", namespace, "resource", resource, "file", "error", err.Error())

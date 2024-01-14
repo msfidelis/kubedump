@@ -6,29 +6,17 @@ jobs:
   go-lint:
     strategy:
       matrix:
-        go-version: [1.18.x]
+        go-version: [1.21.x]
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
-
-      - name: setup GOPATH into PATH
-        run: |
-          echo "::set-env name=GOPATH::$(go env GOPATH)"
-          echo "::add-path::$(go env GOPATH)/bin"
-        shell: bash
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true  
-
-      - uses: actions/checkout@v2
-
-      - name: Run's Golint 
-        run: |
-            export PATH=$PATH:$(go env GOPATH)/bin
-            go get -u golang.org/x/lint/golint
-            golint -set_exit_status ./...
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54
 
   unit-test:
     needs: [ go-lint ]

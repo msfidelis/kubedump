@@ -41,7 +41,7 @@ docker run --network -v ~/.kubeconfig:/home/root/.kubeconfig host -it fidelissau
 ## MacOS amd64
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_darwin_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_darwin_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -50,7 +50,7 @@ chmod +x /usr/local/bin/kubedump
 ## MacOS arm64
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_darwin_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_darwin_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -58,7 +58,7 @@ chmod +x /usr/local/bin/kubedump
 ## Linux amd64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_linux_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_linux_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -66,7 +66,7 @@ chmod +x /usr/local/bin/kubedump
 ## Linux arm64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_linux_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_linux_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -74,7 +74,7 @@ chmod +x /usr/local/bin/kubedump
 ## Freebsd amd64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_freebsd_amd64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_freebsd_amd64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```
@@ -82,7 +82,7 @@ chmod +x /usr/local/bin/kubedump
 ## Freebsd arm64 
 
 ```bash
-wget https://github.com/msfidelis/kubedump/releases/download/v0.1.3/kubedump_0.1.3_freebsd_arm64 -O kubedump 
+wget https://github.com/msfidelis/kubedump/releases/download/v0.1.4/kubedump_0.1.4_freebsd_arm64 -O kubedump 
 mv kubedump /usr/local/bin 
 chmod +x /usr/local/bin/kubedump
 ```

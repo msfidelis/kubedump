@@ -267,6 +267,7 @@ kubedump restore chip
 
 ## Using Config Files 
 
+
 You can use `dump-file` and `restore-file` command with yaml file configuration to automate dumps between a lot of namespaces at same time. 
 
 You can create a `kubedump-file.yaml` example like this: 
@@ -290,6 +291,15 @@ resources:
   - secret
   - configmap
 
+```
+
+In any case, you can bootstrap a project config file using `init` command
+
+```bash
+kubedump init --project kubedump
+2025/03/23 14:39:31 INFO Initializing project=kubedump
+2025/03/23 14:39:31 INFO Project folder created folder=./kubedump/
+2025/03/23 14:39:31 INFO Project file created project=./kubedump/project.yaml
 ```
 
 ```bash
